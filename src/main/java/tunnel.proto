@@ -23,7 +23,7 @@ message TunnelCommand {
 
     optional string sourceId = 4;
     optional string destinationId = 5;
-    optional string
-    optional uint32 port = 6;
-    optional bytes message = 7;
+    optional uint32 sourcePort = 6;
+    optional uint32 destinationPort = 7;
+    optional bytes message = 8;
 }

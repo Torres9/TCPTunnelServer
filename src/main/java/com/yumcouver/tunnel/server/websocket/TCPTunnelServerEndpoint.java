@@ -51,8 +51,10 @@ public class TCPTunnelServerEndpoint {
                         send(errorMessage("Invalid source id"));
                     else if(tunnelCommand.getMethod() ==
                             TunnelProto.TunnelCommand.Method.SEND
-                            && (tunnelCommand.getPort() <= 0
-                            || tunnelCommand.getPort() >= 65536))
+                            && (tunnelCommand.getSourcePort() <= 0
+                            || tunnelCommand.getSourcePort() >= 65536
+                            || tunnelCommand.getDestinationPort() <= 0
+                            || tunnelCommand.getDestinationPort() >= 65536))
                         send(errorMessage("Invalid port number"));
                     else
                         idConnectionsMappings.get(destinationId).send(tunnelCommand);
