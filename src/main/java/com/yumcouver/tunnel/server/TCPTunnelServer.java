@@ -11,6 +11,7 @@ import javax.ws.rs.ApplicationPath;
 @ApplicationPath("/")
 public class TCPTunnelServer extends ResourceConfig {
     private static final Logger LOGGER = LogManager.getLogger(TCPTunnelServer.class);
+    public static final boolean DEBUG_MODE = true;
 
     public TCPTunnelServer() {
         packages("com.yumcouver.tunnel.websocket");

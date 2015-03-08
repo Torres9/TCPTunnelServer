@@ -2,6 +2,7 @@ package com.yumcouver.tunnel.server.websocket;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.yumcouver.tunnel.server.TCPTunnelServer;
 import com.yumcouver.tunnel.server.protobuf.TunnelProto;
 import com.yumcouver.tunnel.server.util.Wireshark;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +21,6 @@ public class TCPTunnelServerEndpoint {
             LogManager.getLogger(TCPTunnelServerEndpoint.class);
     private static final String SEVER_ID = "SERVER-0000-0000-0000-000000000000";
     private static final String UNKOWN_ID = "UNKOWN-FFFF-FFFF-FFFF-FFFFFFFFFFFF";
-    private static final boolean DEBUG_MODE = true;
 
     private static final Map<String, TCPTunnelServerEndpoint> idConnectionsMappings =
             new ConcurrentHashMap<>();
@@ -43,7 +43,7 @@ public class TCPTunnelServerEndpoint {
             LOGGER.info("Received message from {}, METHOD: {}",
                     prefixOfSessionId,
                     tunnelCommand.getMethod().getValueDescriptor());
-            if(DEBUG_MODE)
+            if(TCPTunnelServer.DEBUG_MODE)
                 LOGGER.debug("Received message content: {}",
                         readStreamWireshark.encodeMessageAsBase64(tunnelCommand));
 
@@ -100,7 +100,7 @@ public class TCPTunnelServerEndpoint {
         outputStream.close();
         LOGGER.info("Sent message to {}, METHOD: {}", prefixOfSessionId,
                 tunnelCommand.getMethod().getValueDescriptor());
-        if(DEBUG_MODE)
+        if(TCPTunnelServer.DEBUG_MODE)
             LOGGER.debug("Sent message content: {}",
                     writeStreamWireshark.encodeMessageAsBase64(tunnelCommand));
     }
