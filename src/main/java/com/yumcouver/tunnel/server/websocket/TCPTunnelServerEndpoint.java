@@ -10,6 +10,7 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Base64;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,11 +24,27 @@ public class TCPTunnelServerEndpoint {
     private static final Map<String, TCPTunnelServerEndpoint> idConnectionsMappings =
             new ConcurrentHashMap<>();
 
+    private Base64.Encoder encoder = Base64.getEncoder();
+    private byte[] bytesRemained = new byte[0];
     private Session session;
     private String prefixOfSessionId;
 
     private boolean isIdValid(String sessionId) {
         return sessionId != null && idConnectionsMappings.containsKey(sessionId);
+    }
+
+    private String encodeMessageAsBase64(TunnelProto.TunnelCommand tunnelCommand) {
+        int offset = bytesRemained.length;
+        int length = tunnelCommand.getMessage().size() + offset;
+        int newBytesRemained = length % 3;
+        byte[] duplicatedBytes = new byte[length-newBytesRemained];
+        System.arraycopy(bytesRemained, 0, duplicatedBytes, 0, offset);
+        tunnelCommand.getMessage().copyTo(duplicatedBytes, 0, offset,
+                duplicatedBytes.length - offset);
+        bytesRemained = new byte[newBytesRemained];
+        tunnelCommand.getMessage().copyTo(bytesRemained,
+                duplicatedBytes.length - offset, 0, newBytesRemained);
+        return new String(encoder.encode(duplicatedBytes));
     }
 
     @OnMessage
@@ -38,6 +55,8 @@ public class TCPTunnelServerEndpoint {
             LOGGER.info("Received message from {}, METHOD: {}",
                     prefixOfSessionId,
                     tunnelCommand.getMethod().getValueDescriptor());
+            LOGGER.debug("Duplicate message to test message reliability: {}",
+                    encodeMessageAsBase64(tunnelCommand));
             String destinationId = tunnelCommand.getDestinationId();
             String sourceId = tunnelCommand.getSourceId();
             switch (tunnelCommand.getMethod()) {
@@ -90,6 +109,8 @@ public class TCPTunnelServerEndpoint {
         outputStream.close();
         LOGGER.info("Sent message to {}, METHOD: {}", prefixOfSessionId,
                 tunnelCommand.getMethod().getValueDescriptor());
+        LOGGER.debug("Duplicate message to test message reliability: {}",
+                    encodeMessageAsBase64(tunnelCommand));
     }
 
     @OnOpen
