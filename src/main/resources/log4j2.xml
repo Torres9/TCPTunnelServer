@@ -6,7 +6,7 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %X %logger{36} - %msg%n"/>
         </Console>
 
-        <File name="FileLogger" fileName="TCPTunnelServer.log" immediateFlush="true">
+        <File name="FileLogger" fileName="logs/TCPTunnelServer.log" immediateFlush="true">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %X %logger{36} - %msg%n"/>
         </File>
 
