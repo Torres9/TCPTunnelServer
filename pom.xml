@@ -62,7 +62,6 @@
       <!--<artifactId>tyrus-container-grizzly-server</artifactId>-->
       <!--<version>1.9</version>-->
     <!--</dependency>-->
-
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
