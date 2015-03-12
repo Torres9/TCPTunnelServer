@@ -140,7 +140,7 @@ public class TCPTunnelServerEndpoint {
         else
             stringBuilder.append(String.format("SOURCE: %s\n",
                     tunnelCommand.getSourceType()));
-        if(tunnelCommand.hasSourceId())
+        if(tunnelCommand.hasDestinationId())
             stringBuilder.append(String.format("DESTINATION: %s\n",
                     tunnelCommand.getDestinationId()));
         else
