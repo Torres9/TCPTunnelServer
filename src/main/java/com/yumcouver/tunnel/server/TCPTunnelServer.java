@@ -14,8 +14,8 @@ public class TCPTunnelServer extends ResourceConfig {
     public static final boolean DEBUG_MODE = true;
 
     public TCPTunnelServer() {
-        packages("com.yumcouver.tunnel.websocket");
-        packages("com.yumcouver.tunnel.rest");
+        packages("com.yumcouver.tunnel.server.websocket");
+        packages("com.yumcouver.tunnel.server.rest");
     }
 
 //    public static void main(String[] args) throws Exception {

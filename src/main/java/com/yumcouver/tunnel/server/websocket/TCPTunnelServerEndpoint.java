@@ -35,7 +35,7 @@ public class TCPTunnelServerEndpoint {
     }
 
     @OnMessage
-    public synchronized void onMessage(byte[] request) throws IOException {
+    public void onMessage(byte[] request) throws IOException {
         try {
             TunnelProto.TunnelCommand tunnelCommand =
                     TunnelProto.TunnelCommand.parseFrom(request);
@@ -89,7 +89,7 @@ public class TCPTunnelServerEndpoint {
                 .build();
     }
 
-    public synchronized void send(TunnelProto.TunnelCommand tunnelCommand) throws IOException {
+    public void send(TunnelProto.TunnelCommand tunnelCommand) throws IOException {
         OutputStream outputStream = session.getBasicRemote().getSendStream();
         tunnelCommand.writeTo(outputStream);
         outputStream.flush();
