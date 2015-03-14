@@ -42,7 +42,7 @@ public class TCPTunnelServerEndpoint {
 
             if(TCPTunnelServer.DEBUG_MODE)
                 LOGGER.debug("Received message: \n{}",
-                        getMessageContent(tunnelCommand, readStreamWireshark));
+                        readStreamWireshark.getMessageContent(tunnelCommand));
             String destinationId = tunnelCommand.getDestinationId();
             String sourceId = tunnelCommand.getSourceId();
             switch (tunnelCommand.getMethod()) {
@@ -96,7 +96,7 @@ public class TCPTunnelServerEndpoint {
         outputStream.close();
         if(TCPTunnelServer.DEBUG_MODE)
             LOGGER.debug("Sent message: \n{}",
-                    getMessageContent(tunnelCommand, writeStreamWireshark));
+                    writeStreamWireshark.getMessageContent(tunnelCommand));
     }
 
     @OnOpen
@@ -126,38 +126,5 @@ public class TCPTunnelServerEndpoint {
                 .setDestinationType(TunnelProto.TunnelCommand.EndType.CLIENT)
                 .setMessage(ByteString.copyFromUtf8(session.getId()))
                 .build();
-    }
-
-    private String getMessageContent(TunnelProto.TunnelCommand tunnelCommand, Wireshark wireshark) {
-        StringBuilder stringBuilder = new StringBuilder();
-        String header = "===================================\n";
-        stringBuilder.append("===================================\n");
-        stringBuilder.append(String.format(
-                "METHOD: %s\n", tunnelCommand.getMethod().getValueDescriptor()));
-        if(tunnelCommand.hasSourceId())
-            stringBuilder.append(String.format("SOURCE: %s\n",
-                    tunnelCommand.getSourceId()));
-        else
-            stringBuilder.append(String.format("SOURCE: %s\n",
-                    tunnelCommand.getSourceType()));
-        if(tunnelCommand.hasDestinationId())
-            stringBuilder.append(String.format("DESTINATION: %s\n",
-                    tunnelCommand.getDestinationId()));
-        else
-            stringBuilder.append(String.format("DESTINATION: %s\n",
-                    tunnelCommand.getDestinationType()));
-        if(tunnelCommand.hasSourcePort())
-            stringBuilder.append(String.format("SOURCE_PORT: %d\n",
-                    tunnelCommand.getSourcePort()));
-        if(tunnelCommand.hasDestinationPort())
-            stringBuilder.append(String.format("DESTINATION_PORT: %d\n",
-                    tunnelCommand.getDestinationPort()));
-        if(tunnelCommand.hasMessage()) {
-            String encodedMessage = wireshark.encodeMessageAsBase64(tunnelCommand);
-            if(!encodedMessage.isEmpty())
-                stringBuilder.append(String.format("MESSAGE: %s\n", encodedMessage));
-        }
-        stringBuilder.append(header);
-        return stringBuilder.toString();
     }
 }

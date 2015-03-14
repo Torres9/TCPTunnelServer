@@ -15,8 +15,12 @@ public class Wireshark {
     public Wireshark() {
     }
 
-    public String encodeMessageAsBase64(TunnelProto.TunnelCommand tunnelCommand) {
+    private String encodeMessageAsBase64(TunnelProto.TunnelCommand tunnelCommand) {
         return encodeMessageAsBase64(tunnelCommand.getMessage().toByteArray());
+    }
+
+    private String encodeMessageAsBase64(String message) {
+        return encodeMessageAsBase64(message.getBytes());
     }
 
     public String encodeMessageAsBase64(byte[] bytes) {
@@ -41,5 +45,38 @@ public class Wireshark {
                     bytesRemained, 0, newBytesRemained);
             return "";
         }
+    }
+
+    public String getMessageContent(TunnelProto.TunnelCommand tunnelCommand) {
+        StringBuilder stringBuilder = new StringBuilder();
+        String header = "==========================================================\n";
+        stringBuilder.append(header);
+        stringBuilder.append(String.format(
+                "METHOD: %s\n", tunnelCommand.getMethod().getValueDescriptor()));
+        if(tunnelCommand.hasSourceId())
+            stringBuilder.append(String.format("SOURCE: %s\n",
+                    tunnelCommand.getSourceId()));
+        else
+            stringBuilder.append(String.format("SOURCE: %s\n",
+                    tunnelCommand.getSourceType()));
+        if(tunnelCommand.hasDestinationId())
+            stringBuilder.append(String.format("DESTINATION: %s\n",
+                    tunnelCommand.getDestinationId()));
+        else
+            stringBuilder.append(String.format("DESTINATION: %s\n",
+                    tunnelCommand.getDestinationType()));
+        if(tunnelCommand.hasSourcePort())
+            stringBuilder.append(String.format("SOURCE_PORT: %d\n",
+                    tunnelCommand.getSourcePort()));
+        if(tunnelCommand.hasDestinationPort())
+            stringBuilder.append(String.format("DESTINATION_PORT: %d\n",
+                    tunnelCommand.getDestinationPort()));
+        if(tunnelCommand.hasMessage()) {
+            String encodedMessage = encodeMessageAsBase64(tunnelCommand);
+            if(!encodedMessage.isEmpty())
+                stringBuilder.append(String.format("MESSAGE: %s\n", encodedMessage));
+        }
+        stringBuilder.append(header);
+        return stringBuilder.toString();
     }
 }
