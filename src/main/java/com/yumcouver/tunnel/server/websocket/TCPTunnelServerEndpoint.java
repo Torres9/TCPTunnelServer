@@ -41,8 +41,7 @@ public class TCPTunnelServerEndpoint {
                     TunnelProto.TunnelCommand.parseFrom(request);
 
             if(TCPTunnelServer.DEBUG_MODE)
-                LOGGER.debug("Received message: \n{}",
-                        readStreamWireshark.getMessageContent(tunnelCommand));
+                LOGGER.debug("Received message: \n{}", Wireshark.log(tunnelCommand));
             String destinationId = tunnelCommand.getDestinationId();
             String sourceId = tunnelCommand.getSourceId();
             switch (tunnelCommand.getMethod()) {
@@ -95,8 +94,7 @@ public class TCPTunnelServerEndpoint {
         outputStream.flush();
         outputStream.close();
         if(TCPTunnelServer.DEBUG_MODE)
-            LOGGER.debug("Sent message: \n{}",
-                    writeStreamWireshark.getMessageContent(tunnelCommand));
+            LOGGER.debug("Sent message: \n{}", Wireshark.log(tunnelCommand));
     }
 
     @OnOpen
