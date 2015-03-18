@@ -38,7 +38,6 @@ public class Wireshark {
             String message = tunnelCommand.getMessage().toStringUtf8();
             if(!message.isEmpty()) {
                 stringBuilder.append(String.format("MESSAGE: %s\n", message));
-                stringBuilder.append(message);
             }
         }
         stringBuilder.append(header);
