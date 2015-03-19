@@ -48,7 +48,13 @@ public class TCPTunnelServerEndpoint {
                 case ID:
                     send(sessionIdResponse());
                     break;
-                case SEND: case ACK:
+                case SYN:case FIN:
+                    if(!isIdValid(destinationId))
+                        send(errorMessage("Invalid destination id"));
+                    else if(!isIdValid(sourceId))
+                        send(errorMessage("Invalid source id"));
+                    idConnectionsMappings.get(destinationId).send(tunnelCommand);
+                case SEND:case ACK:
                     if(!isIdValid(destinationId))
                         send(errorMessage("Invalid destination id"));
                     else if(!isIdValid(sourceId))
@@ -69,7 +75,6 @@ public class TCPTunnelServerEndpoint {
                     else if(isIdValid(destinationId) && isIdValid(sourceId))
                         idConnectionsMappings.get(destinationId).send(tunnelCommand);
                     break;
-                // TODO add close method
                 default:
                     break;
             }

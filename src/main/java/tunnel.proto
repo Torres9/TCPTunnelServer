@@ -10,6 +10,8 @@ message TunnelCommand {
         SEND = 1;
         ID = 2;
         ERROR = 3;
+        SYN = 4;
+        FIN = 5;
     }
 
     enum EndType {
@@ -24,6 +26,7 @@ message TunnelCommand {
     optional string sourceId = 4;
     optional string destinationId = 5;
     optional uint32 sourcePort = 6;
-    optional uint32 destinationPort = 7;
-    optional bytes message = 8;
+    optional uint32 destinationIP = 7;
+    optional uint32 destinationPort = 8;
+    optional bytes message = 9;
 }
