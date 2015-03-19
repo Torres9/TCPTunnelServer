@@ -77,13 +77,18 @@ public final class TunnelProto {
     int getSourcePort();
 
     /**
-     * <code>optional uint32 destinationIP = 7;</code>
+     * <code>optional string destinationIP = 7;</code>
      */
     boolean hasDestinationIP();
     /**
-     * <code>optional uint32 destinationIP = 7;</code>
+     * <code>optional string destinationIP = 7;</code>
      */
-    int getDestinationIP();
+    java.lang.String getDestinationIP();
+    /**
+     * <code>optional string destinationIP = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getDestinationIPBytes();
 
     /**
      * <code>optional uint32 destinationPort = 8;</code>
@@ -205,9 +210,10 @@ public final class TunnelProto {
               sourcePort_ = input.readUInt32();
               break;
             }
-            case 56: {
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000040;
-              destinationIP_ = input.readUInt32();
+              destinationIP_ = bs;
               break;
             }
             case 64: {
@@ -605,18 +611,45 @@ public final class TunnelProto {
     }
 
     public static final int DESTINATIONIP_FIELD_NUMBER = 7;
-    private int destinationIP_;
+    private java.lang.Object destinationIP_;
     /**
-     * <code>optional uint32 destinationIP = 7;</code>
+     * <code>optional string destinationIP = 7;</code>
      */
     public boolean hasDestinationIP() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional uint32 destinationIP = 7;</code>
+     * <code>optional string destinationIP = 7;</code>
      */
-    public int getDestinationIP() {
-      return destinationIP_;
+    public java.lang.String getDestinationIP() {
+      java.lang.Object ref = destinationIP_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          destinationIP_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string destinationIP = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDestinationIPBytes() {
+      java.lang.Object ref = destinationIP_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        destinationIP_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int DESTINATIONPORT_FIELD_NUMBER = 8;
@@ -656,7 +689,7 @@ public final class TunnelProto {
       sourceId_ = "";
       destinationId_ = "";
       sourcePort_ = 0;
-      destinationIP_ = 0;
+      destinationIP_ = "";
       destinationPort_ = 0;
       message_ = com.google.protobuf.ByteString.EMPTY;
     }
@@ -704,7 +737,7 @@ public final class TunnelProto {
         output.writeUInt32(6, sourcePort_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeUInt32(7, destinationIP_);
+        output.writeBytes(7, getDestinationIPBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeUInt32(8, destinationPort_);
@@ -747,7 +780,7 @@ public final class TunnelProto {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(7, destinationIP_);
+          .computeBytesSize(7, getDestinationIPBytes());
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
@@ -886,7 +919,7 @@ public final class TunnelProto {
         bitField0_ = (bitField0_ & ~0x00000010);
         sourcePort_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
-        destinationIP_ = 0;
+        destinationIP_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
         destinationPort_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -995,7 +1028,9 @@ public final class TunnelProto {
           setSourcePort(other.getSourcePort());
         }
         if (other.hasDestinationIP()) {
-          setDestinationIP(other.getDestinationIP());
+          bitField0_ |= 0x00000040;
+          destinationIP_ = other.destinationIP_;
+          onChanged();
         }
         if (other.hasDestinationPort()) {
           setDestinationPort(other.getDestinationPort());
@@ -1331,34 +1366,78 @@ public final class TunnelProto {
         return this;
       }
 
-      private int destinationIP_ ;
+      private java.lang.Object destinationIP_ = "";
       /**
-       * <code>optional uint32 destinationIP = 7;</code>
+       * <code>optional string destinationIP = 7;</code>
        */
       public boolean hasDestinationIP() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional uint32 destinationIP = 7;</code>
+       * <code>optional string destinationIP = 7;</code>
        */
-      public int getDestinationIP() {
-        return destinationIP_;
+      public java.lang.String getDestinationIP() {
+        java.lang.Object ref = destinationIP_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            destinationIP_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional uint32 destinationIP = 7;</code>
+       * <code>optional string destinationIP = 7;</code>
        */
-      public Builder setDestinationIP(int value) {
-        bitField0_ |= 0x00000040;
+      public com.google.protobuf.ByteString
+          getDestinationIPBytes() {
+        java.lang.Object ref = destinationIP_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          destinationIP_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string destinationIP = 7;</code>
+       */
+      public Builder setDestinationIP(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
         destinationIP_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional uint32 destinationIP = 7;</code>
+       * <code>optional string destinationIP = 7;</code>
        */
       public Builder clearDestinationIP() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        destinationIP_ = 0;
+        destinationIP_ = getDefaultInstance().getDestinationIP();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string destinationIP = 7;</code>
+       */
+      public Builder setDestinationIPBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        destinationIP_ = value;
         onChanged();
         return this;
       }
@@ -1461,7 +1540,7 @@ public final class TunnelProto {
       "d.EndType\022/\n\017destinationType\030\003 \002(\0162\026.Tun" +
       "nelCommand.EndType\022\020\n\010sourceId\030\004 \001(\t\022\025\n\r" +
       "destinationId\030\005 \001(\t\022\022\n\nsourcePort\030\006 \001(\r\022" +
-      "\025\n\rdestinationIP\030\007 \001(\r\022\027\n\017destinationPor" +
+      "\025\n\rdestinationIP\030\007 \001(\t\022\027\n\017destinationPor" +
       "t\030\010 \001(\r\022\017\n\007message\030\t \001(\014\"@\n\006Method\022\007\n\003AC" +
       "K\020\000\022\010\n\004SEND\020\001\022\006\n\002ID\020\002\022\t\n\005ERROR\020\003\022\007\n\003SYN\020" +
       "\004\022\007\n\003FIN\020\005\"!\n\007EndType\022\n\n\006SERVER\020\000\022\n\n\006CLI",
