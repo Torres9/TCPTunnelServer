@@ -10,8 +10,9 @@ message TunnelCommand {
         SEND = 1;
         ID = 2;
         ERROR = 3;
-        SYN = 4;
-        FIN = 5;
+        CLIENT_SYN = 4;
+        CLIENT_FIN = 5;
+        SERVER_FIN = 7;
     }
 
     enum EndType {

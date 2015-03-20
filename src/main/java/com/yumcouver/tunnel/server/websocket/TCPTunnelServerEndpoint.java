@@ -48,7 +48,7 @@ public class TCPTunnelServerEndpoint {
                 case ID:
                     send(sessionIdResponse());
                     break;
-                case SYN:case FIN:
+                case CLIENT_SYN:case CLIENT_FIN:
                     if(!isIdValid(destinationId))
                         send(errorMessage("Invalid destination id"));
                     else if(!isIdValid(sourceId))

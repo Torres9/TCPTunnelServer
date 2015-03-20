@@ -287,13 +287,17 @@ public final class TunnelProto {
        */
       ERROR(3, 3),
       /**
-       * <code>SYN = 4;</code>
+       * <code>CLIENT_SYN = 4;</code>
        */
-      SYN(4, 4),
+      CLIENT_SYN(4, 4),
       /**
-       * <code>FIN = 5;</code>
+       * <code>CLIENT_FIN = 5;</code>
        */
-      FIN(5, 5),
+      CLIENT_FIN(5, 5),
+      /**
+       * <code>SERVER_FIN = 7;</code>
+       */
+      SERVER_FIN(6, 7),
       ;
 
       /**
@@ -313,13 +317,17 @@ public final class TunnelProto {
        */
       public static final int ERROR_VALUE = 3;
       /**
-       * <code>SYN = 4;</code>
+       * <code>CLIENT_SYN = 4;</code>
        */
-      public static final int SYN_VALUE = 4;
+      public static final int CLIENT_SYN_VALUE = 4;
       /**
-       * <code>FIN = 5;</code>
+       * <code>CLIENT_FIN = 5;</code>
        */
-      public static final int FIN_VALUE = 5;
+      public static final int CLIENT_FIN_VALUE = 5;
+      /**
+       * <code>SERVER_FIN = 7;</code>
+       */
+      public static final int SERVER_FIN_VALUE = 7;
 
 
       public final int getNumber() { return value; }
@@ -330,8 +338,9 @@ public final class TunnelProto {
           case 1: return SEND;
           case 2: return ID;
           case 3: return ERROR;
-          case 4: return SYN;
-          case 5: return FIN;
+          case 4: return CLIENT_SYN;
+          case 5: return CLIENT_FIN;
+          case 7: return SERVER_FIN;
           default: return null;
         }
       }
@@ -1534,18 +1543,19 @@ public final class TunnelProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\032src/main/java/tunnel.proto\"\366\002\n\rTunnelC" +
+      "\n\032src/main/java/tunnel.proto\"\224\003\n\rTunnelC" +
       "ommand\022%\n\006method\030\001 \002(\0162\025.TunnelCommand.M" +
       "ethod\022*\n\nsourceType\030\002 \002(\0162\026.TunnelComman" +
       "d.EndType\022/\n\017destinationType\030\003 \002(\0162\026.Tun" +
       "nelCommand.EndType\022\020\n\010sourceId\030\004 \001(\t\022\025\n\r" +
       "destinationId\030\005 \001(\t\022\022\n\nsourcePort\030\006 \001(\r\022" +
       "\025\n\rdestinationIP\030\007 \001(\t\022\027\n\017destinationPor" +
-      "t\030\010 \001(\r\022\017\n\007message\030\t \001(\014\"@\n\006Method\022\007\n\003AC" +
-      "K\020\000\022\010\n\004SEND\020\001\022\006\n\002ID\020\002\022\t\n\005ERROR\020\003\022\007\n\003SYN\020" +
-      "\004\022\007\n\003FIN\020\005\"!\n\007EndType\022\n\n\006SERVER\020\000\022\n\n\006CLI",
-      "ENT\020\001B5\n$com.yumcouver.tunnel.server.pro" +
-      "tobufB\013TunnelProtoH\001"
+      "t\030\010 \001(\r\022\017\n\007message\030\t \001(\014\"^\n\006Method\022\007\n\003AC" +
+      "K\020\000\022\010\n\004SEND\020\001\022\006\n\002ID\020\002\022\t\n\005ERROR\020\003\022\016\n\nCLIE" +
+      "NT_SYN\020\004\022\016\n\nCLIENT_FIN\020\005\022\016\n\nSERVER_FIN\020\007",
+      "\"!\n\007EndType\022\n\n\006SERVER\020\000\022\n\n\006CLIENT\020\001B5\n$c" +
+      "om.yumcouver.tunnel.server.protobufB\013Tun" +
+      "nelProtoH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
