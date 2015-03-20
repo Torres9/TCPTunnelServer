@@ -48,23 +48,15 @@ public class TCPTunnelServerEndpoint {
                 case ID:
                     send(sessionIdResponse());
                     break;
-                case CLIENT_SYN:case CLIENT_FIN:
+                case CLIENT_SYN:case CLIENT_FIN:case SEND:case ACK:
                     if(!isIdValid(destinationId))
                         send(errorMessage("Invalid destination id"));
                     else if(!isIdValid(sourceId))
                         send(errorMessage("Invalid source id"));
-                    idConnectionsMappings.get(destinationId).send(tunnelCommand);
-                case SEND:case ACK:
-                    if(!isIdValid(destinationId))
-                        send(errorMessage("Invalid destination id"));
-                    else if(!isIdValid(sourceId))
-                        send(errorMessage("Invalid source id"));
-                    else if(tunnelCommand.getMethod() ==
-                            TunnelProto.TunnelCommand.Method.SEND
-                            && (tunnelCommand.getSourcePort() <= 0
+                    else if(tunnelCommand.getSourcePort() <= 0
                             || tunnelCommand.getSourcePort() >= 65536
                             || tunnelCommand.getDestinationPort() <= 0
-                            || tunnelCommand.getDestinationPort() >= 65536))
+                            || tunnelCommand.getDestinationPort() >= 65536)
                         send(errorMessage("Invalid port number"));
                     else
                         idConnectionsMappings.get(destinationId).send(tunnelCommand);
