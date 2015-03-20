@@ -295,9 +295,9 @@ public final class TunnelProto {
        */
       CLIENT_FIN(5, 5),
       /**
-       * <code>SERVER_FIN = 7;</code>
+       * <code>SERVER_FIN = 6;</code>
        */
-      SERVER_FIN(6, 7),
+      SERVER_FIN(6, 6),
       ;
 
       /**
@@ -325,9 +325,9 @@ public final class TunnelProto {
        */
       public static final int CLIENT_FIN_VALUE = 5;
       /**
-       * <code>SERVER_FIN = 7;</code>
+       * <code>SERVER_FIN = 6;</code>
        */
-      public static final int SERVER_FIN_VALUE = 7;
+      public static final int SERVER_FIN_VALUE = 6;
 
 
       public final int getNumber() { return value; }
@@ -340,7 +340,7 @@ public final class TunnelProto {
           case 3: return ERROR;
           case 4: return CLIENT_SYN;
           case 5: return CLIENT_FIN;
-          case 7: return SERVER_FIN;
+          case 6: return SERVER_FIN;
           default: return null;
         }
       }
@@ -1552,7 +1552,7 @@ public final class TunnelProto {
       "\025\n\rdestinationIP\030\007 \001(\t\022\027\n\017destinationPor" +
       "t\030\010 \001(\r\022\017\n\007message\030\t \001(\014\"^\n\006Method\022\007\n\003AC" +
       "K\020\000\022\010\n\004SEND\020\001\022\006\n\002ID\020\002\022\t\n\005ERROR\020\003\022\016\n\nCLIE" +
-      "NT_SYN\020\004\022\016\n\nCLIENT_FIN\020\005\022\016\n\nSERVER_FIN\020\007",
+      "NT_SYN\020\004\022\016\n\nCLIENT_FIN\020\005\022\016\n\nSERVER_FIN\020\006",
       "\"!\n\007EndType\022\n\n\006SERVER\020\000\022\n\n\006CLIENT\020\001B5\n$c" +
       "om.yumcouver.tunnel.server.protobufB\013Tun" +
       "nelProtoH\001"

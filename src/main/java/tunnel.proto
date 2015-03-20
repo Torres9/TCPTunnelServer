@@ -12,7 +12,7 @@ message TunnelCommand {
         ERROR = 3;
         CLIENT_SYN = 4;
         CLIENT_FIN = 5;
-        SERVER_FIN = 7;
+        SERVER_FIN = 6;
     }
 
     enum EndType {
