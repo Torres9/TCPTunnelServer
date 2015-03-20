@@ -1,0 +1,1 @@
+sudo tail -f /usr/share/tomcat8/logs/TCPTunnelServer.log
