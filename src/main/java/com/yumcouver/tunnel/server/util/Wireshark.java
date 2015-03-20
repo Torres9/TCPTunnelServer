@@ -31,6 +31,9 @@ public class Wireshark {
         if(tunnelCommand.hasSourcePort())
             stringBuilder.append(String.format("SOURCE_PORT: %d\n",
                     tunnelCommand.getSourcePort()));
+        if(tunnelCommand.hasDestinationIP())
+            stringBuilder.append(String.format("DESTINATION_IP: %s\n",
+                    tunnelCommand.getDestinationIP()));
         if(tunnelCommand.hasDestinationPort())
             stringBuilder.append(String.format("DESTINATION_PORT: %d\n",
                     tunnelCommand.getDestinationPort()));
