@@ -40,7 +40,7 @@ public class TCPTunnelServerEndpoint {
             TunnelProto.TunnelCommand tunnelCommand =
                     TunnelProto.TunnelCommand.parseFrom(request);
 
-            if(TCPTunnelServer.DEBUG_MODE)
+            if (TCPTunnelServer.DEBUG_MODE)
                 LOGGER.debug("Received message: \n{}", Wireshark.log(tunnelCommand));
             String destinationId = tunnelCommand.getDestinationId();
             String sourceId = tunnelCommand.getSourceId();
@@ -48,12 +48,15 @@ public class TCPTunnelServerEndpoint {
                 case ID:
                     send(sessionIdResponse());
                     break;
-                case CLIENT_SYN:case CLIENT_FIN:case SEND:case ACK:
-                    if(!isIdValid(destinationId))
+                case CLIENT_SYN:
+                case CLIENT_FIN:
+                case SEND:
+                case ACK:
+                    if (!isIdValid(destinationId))
                         send(errorMessage("Invalid destination id"));
-                    else if(!isIdValid(sourceId))
+                    else if (!isIdValid(sourceId))
                         send(errorMessage("Invalid source id"));
-                    else if(tunnelCommand.getSourcePort() <= 0
+                    else if (tunnelCommand.getSourcePort() <= 0
                             || tunnelCommand.getSourcePort() >= 65536
                             || tunnelCommand.getDestinationPort() <= 0
                             || tunnelCommand.getDestinationPort() >= 65536)
@@ -62,9 +65,9 @@ public class TCPTunnelServerEndpoint {
                         idConnectionsMappings.get(destinationId).send(tunnelCommand);
                     break;
                 case ERROR:
-                    if(tunnelCommand.getDestinationType() == TunnelProto.TunnelCommand.EndType.SERVER)
+                    if (tunnelCommand.getDestinationType() == TunnelProto.TunnelCommand.EndType.SERVER)
                         LOGGER.error(tunnelCommand.getMessage());
-                    else if(isIdValid(destinationId) && isIdValid(sourceId))
+                    else if (isIdValid(destinationId) && isIdValid(sourceId))
                         idConnectionsMappings.get(destinationId).send(tunnelCommand);
                     break;
                 default:
@@ -75,8 +78,7 @@ public class TCPTunnelServerEndpoint {
         }
     }
 
-    private TunnelProto.TunnelCommand errorMessage(String errorCode)
-            throws IOException {
+    private TunnelProto.TunnelCommand errorMessage(String errorCode) {
         return TunnelProto.TunnelCommand.newBuilder()
                 .setMethod(TunnelProto.TunnelCommand.Method.ERROR)
                 .setSourceType(TunnelProto.TunnelCommand.EndType.SERVER)
@@ -90,7 +92,7 @@ public class TCPTunnelServerEndpoint {
         tunnelCommand.writeTo(outputStream);
         outputStream.flush();
         outputStream.close();
-        if(TCPTunnelServer.DEBUG_MODE)
+        if (TCPTunnelServer.DEBUG_MODE)
             LOGGER.debug("Sent message: \n{}", Wireshark.log(tunnelCommand));
     }
 

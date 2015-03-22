@@ -1,12 +1,14 @@
 package com.yumcouver.tunnel.server;
 
 //import com.yumcouver.tunnel.server.websocket.TCPTunnelServerEndpoint;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.server.ResourceConfig;
-//import org.glassfish.tyrus.server.Server;
 
 import javax.ws.rs.ApplicationPath;
+
+//import org.glassfish.tyrus.server.Server;
 
 @ApplicationPath("/")
 public class TCPTunnelServer extends ResourceConfig {
