@@ -1,0 +1,16 @@
+// compile: $protoc --java_out=../../../../ tunnel.proto
+
+option java_package = "com.yumcouver.tunnel.server.protobuf";
+option optimize_for = SPEED; // change to LITE_RUNTIME for embedded devices
+option java_outer_classname = "TunnelProto";
+
+message TunnelCommand {
+    enum Method {
+        SYN = 0;
+        CONTROLLER_INIT = 1;
+        TUNNEL_INIT = 2;
+        ERROR = 3;
+    }
+    required Method method = 1;
+    optional string message = 2;
+}
