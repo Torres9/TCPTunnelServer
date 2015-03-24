@@ -41,10 +41,10 @@ public class ControllerHandler extends BaseHandler{
         idControllerHandlerMappings.put(controllerId, this);
     }
 
-    public void sendControllerId() {
+    public void sendControllerId(int port) {
         TunnelProto.TunnelCommand tunnelCommand = TunnelProto.TunnelCommand.newBuilder()
                 .setMethod(TunnelProto.TunnelCommand.Method.CONTROLLER_INIT)
-                .setMessage(String.valueOf(controllerId))
+                .setMessage(String.valueOf(controllerId+ControllerServer.DELIMITER+port))
                 .build();
         controllerServerHandlerAdapter.write(tunnelCommand.toByteArray());
     }

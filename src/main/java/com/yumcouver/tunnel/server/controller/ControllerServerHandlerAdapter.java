@@ -81,8 +81,8 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
                 switch(tunnelCommand.getMethod()) {
                     case CONTROLLER_INIT:
                         baseHandler = new ControllerHandler(this);
-                        ((ControllerHandler)baseHandler).sendControllerId();
-                        new ForwardingServer((ControllerHandler)baseHandler);
+                        ForwardingServer forwardingServer = new ForwardingServer((ControllerHandler)baseHandler);
+                        ((ControllerHandler)baseHandler).sendControllerId(forwardingServer.getPort());
                         break;
                     case TUNNEL_INIT:
                         baseHandler = new TunnelHandler(this);
