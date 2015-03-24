@@ -97,7 +97,7 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
                 LOGGER.catching(e);
             }
         else if(baseHandler instanceof TunnelHandler) {
-            ((TunnelHandler)baseHandler).write(messageBytes);
+            ((TunnelHandler)baseHandler).forward(messageBytes);
         }
         ReferenceCountUtil.release(msg);
     }

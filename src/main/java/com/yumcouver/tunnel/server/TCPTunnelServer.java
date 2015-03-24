@@ -10,5 +10,6 @@ public class TCPTunnelServer {
     public static void main(String args[]) throws IOException {
         ControllerServer.getInstance();
         System.in.read();
+        ControllerServer.getInstance().shutdown();
     }
 }

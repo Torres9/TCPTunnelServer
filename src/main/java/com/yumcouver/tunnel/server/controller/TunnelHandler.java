@@ -13,9 +13,10 @@ public class TunnelHandler extends BaseHandler {
     }
 
     public void write(byte[] messageBytes) {
-        if(forwardingServerHandlerAdapter != null)
-            forwardingServerHandlerAdapter.write(messageBytes);
-        else
-            LOGGER.warn("Forward server handler adapter not found");
+        controllerServerHandlerAdapter.write(messageBytes);
+    }
+
+    public void forward(byte[] messageBytes) {
+        forwardingServerHandlerAdapter.write(messageBytes);
     }
 }
