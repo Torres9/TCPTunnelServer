@@ -39,6 +39,14 @@ public class ForwardingServerHandlerAdapter extends ChannelInboundHandlerAdapter
         }
     }
 
+    public void shutdown() {
+        synchronized (this) {
+            if (ctx != null) {
+                ctx.close();
+            }
+        }
+    }
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         synchronized (this) {

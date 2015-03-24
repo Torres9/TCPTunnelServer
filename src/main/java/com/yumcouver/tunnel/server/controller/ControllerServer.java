@@ -38,6 +38,7 @@ public class ControllerServer {
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
             serverBootstrap.bind(ConfigReader.TCP_TUNNEL_SERVER_PORT).sync();
+            LOGGER.info("Listening on 0.0.0.0:{}", ConfigReader.TCP_TUNNEL_SERVER_PORT);
         } catch (InterruptedException e) {
             LOGGER.catching(e);
         }

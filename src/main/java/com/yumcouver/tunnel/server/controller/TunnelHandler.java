@@ -20,4 +20,10 @@ public class TunnelHandler extends BaseHandler {
     public void forward(byte[] messageBytes) {
         forwardingServerHandlerAdapter.write(messageBytes);
     }
+
+    @Override
+    public void shutdown() {
+        controllerServerHandlerAdapter.shutdown();
+        forwardingServerHandlerAdapter.shutdown();
+    }
 }

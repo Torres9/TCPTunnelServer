@@ -1,5 +1,6 @@
 package com.yumcouver.tunnel.server.controller;
 
+import com.yumcouver.tunnel.server.forward.ForwardingServer;
 import com.yumcouver.tunnel.server.protobuf.TunnelProto;
 
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ControllerHandler extends BaseHandler {
     private final static int POOL_CAPACITY = 5;
     private static int count = 0;
+    private ForwardingServer forwardingServer;
 
     private static Map<Integer, ControllerHandler> idControllerHandlerMappings =
             new ConcurrentHashMap<>();
@@ -41,10 +43,11 @@ public class ControllerHandler extends BaseHandler {
         idControllerHandlerMappings.put(controllerId, this);
     }
 
-    public void sendControllerId(int port) {
+    public void sendControllerId() {
         TunnelProto.TunnelCommand tunnelCommand = TunnelProto.TunnelCommand.newBuilder()
                 .setMethod(TunnelProto.TunnelCommand.Method.CONTROLLER_INIT)
-                .setMessage(String.valueOf(controllerId + ControllerServer.DELIMITER + port))
+                .setMessage(String.valueOf(controllerId + ControllerServer.DELIMITER +
+                        forwardingServer.getPort()))
                 .build();
         controllerServerHandlerAdapter.write(tunnelCommand.toByteArray());
     }
@@ -63,5 +66,10 @@ public class ControllerHandler extends BaseHandler {
                 .setMethod(TunnelProto.TunnelCommand.Method.SYN)
                 .build();
         controllerServerHandlerAdapter.write(tunnelCommand.toByteArray());
+    }
+
+    public void setForwardingServer(ForwardingServer forwardingServer) {
+        assert this.forwardingServer == null;
+        this.forwardingServer = forwardingServer;
     }
 }

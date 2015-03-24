@@ -56,13 +56,9 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
                 (InetSocketAddress) ctx.channel().remoteAddress();
         LOGGER.info("{}:{} disconnected", inetSocketAddress.getHostString(),
                 inetSocketAddress.getPort());
-    }
-
-    private void sendSYN() {
-        TunnelProto.TunnelCommand tunnelCommand = TunnelProto.TunnelCommand.newBuilder()
-                .setMethod(TunnelProto.TunnelCommand.Method.SYN)
-                .build();
-        write(tunnelCommand.toByteArray());
+        if (baseHandler instanceof TunnelHandler) {
+            baseHandler.shutdown();
+        }
     }
 
     @Override
@@ -81,8 +77,8 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
                 switch (tunnelCommand.getMethod()) {
                     case CONTROLLER_INIT:
                         baseHandler = new ControllerHandler(this);
-                        ForwardingServer forwardingServer = new ForwardingServer((ControllerHandler) baseHandler);
-                        ((ControllerHandler) baseHandler).sendControllerId(forwardingServer.getPort());
+                        new ForwardingServer((ControllerHandler) baseHandler);
+                        ((ControllerHandler) baseHandler).sendControllerId();
                         break;
                     case TUNNEL_INIT:
                         baseHandler = new TunnelHandler(this);
@@ -115,12 +111,6 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
         synchronized (this) {
             if (this.ctx != null)
                 ctx.close();
-        }
-    }
-
-    public boolean isConnected() {
-        synchronized (this) {
-            return this.ctx != null;
         }
     }
 }

@@ -44,6 +44,7 @@ public class ForwardingServer {
                 inUse = true;
             }
         }
+        controllerHandler.setForwardingServer(this);
         LOGGER.info("Listening on port: {}", port);
     }
 
