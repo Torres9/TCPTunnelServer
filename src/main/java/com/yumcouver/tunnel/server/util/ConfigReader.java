@@ -18,10 +18,9 @@ public class ConfigReader {
         Properties props = new Properties();
         try {
             InputStream tmp = ConfigReader.class.getResourceAsStream("/application.properties");
-            if(tmp == null) {
+            if (tmp == null) {
                 LOGGER.fatal("application.properties not found");
-            }
-            else {
+            } else {
                 props.load(tmp);
                 tmp.close();
             }

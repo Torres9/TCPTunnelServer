@@ -74,21 +74,21 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
         final byte[] messageBytes = byteArrayOutputStream.toByteArray();
         if (TCPTunnelServer.DEBUG_MODE)
             LOGGER.debug("Received message: {}", Wireshark.getSubstring(messageBytes));
-        if(baseHandler == null)
+        if (baseHandler == null)
             try {
                 TunnelProto.TunnelCommand tunnelCommand =
                         TunnelProto.TunnelCommand.parseFrom(messageBytes);
-                switch(tunnelCommand.getMethod()) {
+                switch (tunnelCommand.getMethod()) {
                     case CONTROLLER_INIT:
                         baseHandler = new ControllerHandler(this);
-                        ForwardingServer forwardingServer = new ForwardingServer((ControllerHandler)baseHandler);
-                        ((ControllerHandler)baseHandler).sendControllerId(forwardingServer.getPort());
+                        ForwardingServer forwardingServer = new ForwardingServer((ControllerHandler) baseHandler);
+                        ((ControllerHandler) baseHandler).sendControllerId(forwardingServer.getPort());
                         break;
                     case TUNNEL_INIT:
                         baseHandler = new TunnelHandler(this);
                         String controllerId =
                                 tunnelCommand.getMessage().split(ControllerServer.DELIMITER)[0];
-                        ControllerHandler.addTunnelHanlder(controllerId, (TunnelHandler)baseHandler);
+                        ControllerHandler.addTunnelHanlder(controllerId, (TunnelHandler) baseHandler);
                         break;
                     default:
                         LOGGER.warn("method unrecognized");
@@ -96,8 +96,8 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
             } catch (InvalidProtocolBufferException e) {
                 LOGGER.catching(e);
             }
-        else if(baseHandler instanceof TunnelHandler) {
-            ((TunnelHandler)baseHandler).forward(messageBytes);
+        else if (baseHandler instanceof TunnelHandler) {
+            ((TunnelHandler) baseHandler).forward(messageBytes);
         }
         ReferenceCountUtil.release(msg);
     }
@@ -113,7 +113,7 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
 
     public void shutdown() {
         synchronized (this) {
-            if(this.ctx != null)
+            if (this.ctx != null)
                 ctx.close();
         }
     }

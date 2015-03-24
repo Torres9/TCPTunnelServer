@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ControllerHandler extends BaseHandler{
+public class ControllerHandler extends BaseHandler {
     private final static int POOL_CAPACITY = 5;
     private static int count = 0;
 
@@ -15,7 +15,7 @@ public class ControllerHandler extends BaseHandler{
 
     private final int controllerId;
     private final ArrayBlockingQueue<TunnelHandler> tunnelHandlerPool =
-    new ArrayBlockingQueue<>(POOL_CAPACITY);
+            new ArrayBlockingQueue<>(POOL_CAPACITY);
 
     public void addTunnerlHandler(TunnelHandler tunnelHandler) {
         try {
@@ -28,7 +28,7 @@ public class ControllerHandler extends BaseHandler{
     public static void addTunnelHanlder(String controllerId, TunnelHandler tunnelHandler) {
         ControllerHandler controllerHandler =
                 idControllerHandlerMappings.get(Integer.parseInt(controllerId));
-        if(controllerHandler != null)
+        if (controllerHandler != null)
             controllerHandler.addTunnerlHandler(tunnelHandler);
     }
 
@@ -36,7 +36,7 @@ public class ControllerHandler extends BaseHandler{
         super(controllerServerHandlerAdapter);
         synchronized (ControllerHandler.class) {
             controllerId = count;
-            count ++;
+            count++;
         }
         idControllerHandlerMappings.put(controllerId, this);
     }
@@ -44,7 +44,7 @@ public class ControllerHandler extends BaseHandler{
     public void sendControllerId(int port) {
         TunnelProto.TunnelCommand tunnelCommand = TunnelProto.TunnelCommand.newBuilder()
                 .setMethod(TunnelProto.TunnelCommand.Method.CONTROLLER_INIT)
-                .setMessage(String.valueOf(controllerId+ControllerServer.DELIMITER+port))
+                .setMessage(String.valueOf(controllerId + ControllerServer.DELIMITER + port))
                 .build();
         controllerServerHandlerAdapter.write(tunnelCommand.toByteArray());
     }

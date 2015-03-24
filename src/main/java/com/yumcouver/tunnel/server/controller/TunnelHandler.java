@@ -4,6 +4,7 @@ import com.yumcouver.tunnel.server.forward.ForwardingServerHandlerAdapter;
 
 public class TunnelHandler extends BaseHandler {
     private ForwardingServerHandlerAdapter forwardingServerHandlerAdapter;
+
     public TunnelHandler(ControllerServerHandlerAdapter controllerServerHandlerAdapter) {
         super(controllerServerHandlerAdapter);
     }

@@ -47,13 +47,11 @@ public class ForwardingServerHandlerAdapter extends ChannelInboundHandlerAdapter
         InetSocketAddress inetSocketAddress =
                 (InetSocketAddress) ctx.channel().remoteAddress();
         controllerHandler.sendSYN();
-        while(tunnelHandler == null)
+        while (tunnelHandler == null)
             tunnelHandler = controllerHandler.getTunnelHandler();
         tunnelHandler.setForwardingServerHandlerAdapter(this);
         LOGGER.info("{}:{} connected", inetSocketAddress.getHostString(),
                 inetSocketAddress.getPort());
-        if(controllerHandler != null)
-            controllerHandler.shutdown();
     }
 
     @Override
