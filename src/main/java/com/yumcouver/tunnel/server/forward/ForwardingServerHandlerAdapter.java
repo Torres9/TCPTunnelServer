@@ -65,6 +65,7 @@ public class ForwardingServerHandlerAdapter extends ChannelInboundHandlerAdapter
                 (InetSocketAddress) ctx.channel().remoteAddress();
         LOGGER.info("{}:{} disconnected", inetSocketAddress.getHostString(),
                 inetSocketAddress.getPort());
+        tunnelHandler.shutdown();
     }
 
     @Override
