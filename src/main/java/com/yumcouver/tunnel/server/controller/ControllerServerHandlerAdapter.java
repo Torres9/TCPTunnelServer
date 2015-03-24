@@ -30,7 +30,7 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
                 ctx.write(messageByteBuf);
                 ctx.flush();
                 if (TCPTunnelServer.DEBUG_MODE)
-                    LOGGER.debug("Sent message {}", Wireshark.getSubstring(messageBytes));
+                    LOGGER.debug("Sent message: {}", Wireshark.getSubstring(messageBytes));
             } else
                 LOGGER.warn("Not connected");
         }
@@ -73,7 +73,7 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
             byteArrayOutputStream.write(messageByteBuf.readByte());
         final byte[] messageBytes = byteArrayOutputStream.toByteArray();
         if (TCPTunnelServer.DEBUG_MODE)
-            LOGGER.debug("Received message {}", Wireshark.getSubstring(messageBytes));
+            LOGGER.debug("Received message: {}", Wireshark.getSubstring(messageBytes));
         if(baseHandler == null)
             try {
                 TunnelProto.TunnelCommand tunnelCommand =

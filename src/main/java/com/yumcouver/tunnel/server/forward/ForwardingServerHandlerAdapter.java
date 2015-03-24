@@ -52,6 +52,8 @@ public class ForwardingServerHandlerAdapter extends ChannelInboundHandlerAdapter
         tunnelHandler.setForwardingServerHandlerAdapter(this);
         LOGGER.info("{}:{} connected", inetSocketAddress.getHostString(),
                 inetSocketAddress.getPort());
+        if(controllerHandler != null)
+            controllerHandler.shutdown();
     }
 
     @Override
