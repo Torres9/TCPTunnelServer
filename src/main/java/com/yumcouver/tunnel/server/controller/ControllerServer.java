@@ -2,6 +2,7 @@ package com.yumcouver.tunnel.server.controller;
 
 import com.yumcouver.tunnel.server.util.ConfigReader;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -19,6 +20,7 @@ public class ControllerServer {
 
     private final EventLoopGroup bossGroup = new NioEventLoopGroup();
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private ChannelFuture channelFuture;
 
     public static ControllerServer getInstance() {
         return ourInstance;
@@ -37,7 +39,7 @@ public class ControllerServer {
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
-            serverBootstrap.bind(ConfigReader.TCP_TUNNEL_SERVER_PORT).sync();
+            channelFuture = serverBootstrap.bind(ConfigReader.TCP_TUNNEL_SERVER_PORT).sync();
             LOGGER.info("Listening on 0.0.0.0:{}", ConfigReader.TCP_TUNNEL_SERVER_PORT);
         } catch (InterruptedException e) {
             LOGGER.catching(e);
@@ -47,5 +49,9 @@ public class ControllerServer {
     public void shutdown() {
         workerGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
+    }
+
+    public void join() throws InterruptedException {
+        channelFuture.channel().closeFuture().sync();
     }
 }

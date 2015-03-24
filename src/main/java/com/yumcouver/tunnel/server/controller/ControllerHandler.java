@@ -19,7 +19,7 @@ public class ControllerHandler extends BaseHandler {
     private final ArrayBlockingQueue<TunnelHandler> tunnelHandlerPool =
             new ArrayBlockingQueue<>(POOL_CAPACITY);
 
-    public void addTunnerlHandler(TunnelHandler tunnelHandler) {
+    public void addTunnelHandler(TunnelHandler tunnelHandler) {
         try {
             tunnelHandlerPool.put(tunnelHandler);
         } catch (InterruptedException e) {
@@ -27,11 +27,11 @@ public class ControllerHandler extends BaseHandler {
         }
     }
 
-    public static void addTunnelHanlder(String controllerId, TunnelHandler tunnelHandler) {
+    public static void addTunnelHandler(String controllerId, TunnelHandler tunnelHandler) {
         ControllerHandler controllerHandler =
                 idControllerHandlerMappings.get(Integer.parseInt(controllerId));
         if (controllerHandler != null)
-            controllerHandler.addTunnerlHandler(tunnelHandler);
+            controllerHandler.addTunnelHandler(tunnelHandler);
     }
 
     public ControllerHandler(ControllerServerHandlerAdapter controllerServerHandlerAdapter) {
@@ -71,5 +71,11 @@ public class ControllerHandler extends BaseHandler {
     public void setForwardingServer(ForwardingServer forwardingServer) {
         assert this.forwardingServer == null;
         this.forwardingServer = forwardingServer;
+    }
+
+    @Override
+    public void shutdown() {
+        controllerServerHandlerAdapter.shutdown();
+        forwardingServer.shutdown();
     }
 }

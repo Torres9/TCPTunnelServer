@@ -56,9 +56,7 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
                 (InetSocketAddress) ctx.channel().remoteAddress();
         LOGGER.info("{}:{} disconnected", inetSocketAddress.getHostString(),
                 inetSocketAddress.getPort());
-        if (baseHandler instanceof TunnelHandler) {
-            baseHandler.shutdown();
-        }
+        baseHandler.shutdown();
     }
 
     @Override
@@ -84,7 +82,7 @@ public class ControllerServerHandlerAdapter extends ChannelInboundHandlerAdapter
                         baseHandler = new TunnelHandler(this);
                         String controllerId =
                                 tunnelCommand.getMessage().split(ControllerServer.DELIMITER)[0];
-                        ControllerHandler.addTunnelHanlder(controllerId, (TunnelHandler) baseHandler);
+                        ControllerHandler.addTunnelHandler(controllerId, (TunnelHandler) baseHandler);
                         break;
                     default:
                         LOGGER.warn("method unrecognized");
